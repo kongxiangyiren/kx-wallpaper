@@ -4,6 +4,7 @@ import axios from 'axios';
 import fs from 'fs';
 import { join } from 'node:path';
 import { homedir } from 'node:os';
+
 function isImg(filePath: string) {
   return (
     /^image\/(png|jpg|jpeg|webp)$/.test(filePath) ||
@@ -15,7 +16,7 @@ function isImg(filePath: string) {
 }
 
 // 下载图片
-export async function downloadImage(url: string, path: string) {
+async function downloadImage(url: string, path: string) {
   const writer = fs.createWriteStream(path);
 
   const response = await axios({

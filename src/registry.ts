@@ -1,11 +1,11 @@
 import { checkIfExists, register, deRegister } from 'protocol-registry';
 import prompts from 'prompts';
 
-function re(terminal: boolean = false) {
-  return register(import.meta.env.TSDOWN_PROTOCOL, 'node ' + import.meta.filename+' "$_URL_"', {
+function re() {
+  return register(import.meta.env.TSDOWN_PROTOCOL, 'node ' + import.meta.filename + ' "$_URL_"', {
     appName: import.meta.env.TSDOWN_APP_NAME,
     override: true,
-    terminal: terminal
+    terminal: true
   });
 }
 
@@ -43,18 +43,6 @@ async function registry() {
               value: 'deRegister',
               disabled: !exists,
               description: !exists ? '未注册' : '注销协议'
-            },
-            {
-              title: '打开终端',
-              value: 'openTerminal',
-              disabled: !exists,
-              description: !exists ? '未注册' : '协议打开终端'
-            },
-            {
-              title: '关闭终端',
-              value: 'closeTerminal',
-              disabled: !exists,
-              description: !exists ? '未注册' : '协议关闭终端'
             }
           ]
         }
@@ -79,7 +67,7 @@ async function registry() {
       console.log('注册成功');
       break;
     case 'update':
-      await re(false).catch(e => {
+      await re().catch(e => {
         console.log('更新失败');
         throw new Error(e);
       });
@@ -94,22 +82,6 @@ async function registry() {
         throw new Error(e);
       });
       console.log('注销成功');
-      break;
-
-    case 'openTerminal':
-      await re(true).catch(e => {
-        console.log('设置打开终端失败');
-        throw new Error(e);
-      });
-      console.log('设置打开终端成功');
-      break;
-
-    case 'closeTerminal':
-      await re(false).catch(e => {
-        console.log('设置关闭终端失败');
-        throw new Error(e);
-      });
-      console.log('设置关闭终端成功');
       break;
   }
 }
