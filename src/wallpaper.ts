@@ -17,28 +17,22 @@ function isImg(filePath: string) {
 
 // 下载图片
 async function downloadImage(url: string, path: string) {
-  const writer = fs.createWriteStream(path);
-
   const response = await axios({
     url,
     method: 'GET',
-    responseType: 'stream'
-  });
+    responseType: 'arraybuffer'
+  }).catch(e => {
+    console.log(e);
+    throw new Error(e);
+});
   //   获取type
   const type = response.headers['content-type'];
 
   if (type && typeof type === 'string' && !isImg(type)) {
     throw new Error('请使用jpg/png/jpeg/webp格式的图片');
   }
-
-  response.data.pipe(writer);
-
-  return new Promise((resolve, reject) => {
-    writer.on('finish', resolve);
-    writer.on('error', reject);
-    // 返回type
-    resolve(type);
-  });
+  fs.writeFileSync(path, response.data);
+  return type;
 }
 
 async function getWallpaper(wallpaperPath: string) {
