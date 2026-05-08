@@ -8,11 +8,9 @@ program
   .name(pac.name)
   .helpOption('-h, --help', '查看帮助')
   .version(pac.version, '-v, --version', '查看版本')
-  .arguments('<url>')
-  .description(
-    `DESCRIPTION: https://github.com/kongxiangyiren/kx-wallpaper`
-  )
+  .description(`DESCRIPTION: https://github.com/kongxiangyiren/kx-wallpaper`)
   .helpCommand(false);
+program.arguments('[url]');
 
 program.parse(process.argv);
 

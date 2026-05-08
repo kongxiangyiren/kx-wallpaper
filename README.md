@@ -6,6 +6,12 @@
 npm install kx-wallpaper -g
 ```
 
+## 注册协议
+
+```sh
+kw
+```
+
 ## 使用
 
 ```sh
