@@ -22,20 +22,26 @@ async function downloadImage(url: string, path: string) {
     method: 'GET',
     responseType: 'arraybuffer'
   }).catch(e => {
-    console.log(e);
-    throw new Error(e);
-});
+    console.error(e);
+    process.exit(1);
+  });
   //   获取type
   const type = response.headers['content-type'];
 
   if (type && typeof type === 'string' && !isImg(type)) {
-    throw new Error('请使用jpg/png/jpeg/webp格式的图片');
+    console.error('请使用jpg/png/jpeg/webp格式的图片');
+    process.exit(1);
   }
   fs.writeFileSync(path, response.data);
   return type;
 }
 
 async function getWallpaper(wallpaperPath: string) {
+  // file:
+  if (wallpaperPath.startsWith('file://')) {
+    const url = new URL(wallpaperPath);
+    wallpaperPath = process.platform === 'win32' ? url.pathname.slice(1) : url.pathname;
+  }
   // 本地文件
   if (existsSync(wallpaperPath) && isImg(wallpaperPath)) {
     console.log(wallpaperPath);
@@ -51,8 +57,8 @@ async function getWallpaper(wallpaperPath: string) {
     }
     const downloadPath = join(wallpaperTmp, 'wallpaper_' + new Date().getTime());
     const type = await downloadImage(wallpaperPath, downloadPath).catch(e => {
-      console.log(e);
-      throw new Error(e);
+      console.error(e);
+      process.exit(1);
     });
     const wallpaper = join(
       wallpaperTmp,
@@ -69,7 +75,7 @@ async function getWallpaper(wallpaperPath: string) {
     return;
   }
 
-  throw new Error('请使用图片路径或网络图片链接,请使用jpg/png/jpeg/webp格式的图片');
+  console.error('请使用图片路径或网络图片链接,请使用jpg/png/jpeg/webp格式的图片');
 }
 
 export default getWallpaper;
