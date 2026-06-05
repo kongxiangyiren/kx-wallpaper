@@ -15,7 +15,7 @@
     "url": "git+https://github.com/kongxiangyiren/kx-wallpaper.git"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.com"
+    "registry": "https://registry.npmjs.org"
   },
   "keywords": [
     "wallpaper"
