@@ -1,7 +1,7 @@
 {
   "name": "kx-wallpaper",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "自动设置壁纸",
   "author": "空巷一人",
   "license": "MIT",
